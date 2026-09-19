@@ -1,0 +1,22 @@
+# Configuration is read from the environment. See the README for what each
+# variable does. Set them in a .env file next to this compose file, or export
+# them in shell before running `docker compose up`.
+services:
+  hibid-watcher:
+    container_name: hibid-watcher
+    build: ./hibid-app
+    environment:
+      - HIBID_ZIP=${HIBID_ZIP}
+      - HIBID_MILES=${HIBID_MILES:-100}
+      - SCRAPE_INTERVAL_HOURS=${SCRAPE_INTERVAL_HOURS:-6}
+      - HA_WEBHOOK_URL=${HA_WEBHOOK_URL:-}
+    volumes:
+      - ./hibid-app-data:/app/data
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4000M
+    ports:
+      - "${HOST_PORT:-8002}:8000"
+    restart: unless-stopped

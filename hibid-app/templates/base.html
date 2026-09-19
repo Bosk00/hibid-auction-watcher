@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}HiBid Watcher{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="bg-photo" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="wordmark">HiBid Watcher</div>
+    <nav class="tabs">
+      <a href="/" class="{{ 'active' if active_tab == 'home' else '' }}">Home</a>
+      {% for p in profiles %}
+        <a href="/profile/{{ p['name'] }}" class="{{ 'active' if active_tab == p['name'] else '' }}">{{ p['name'] }}</a>
+      {% endfor %}
+      <a href="/settings" class="{{ 'active' if active_tab == 'settings' else '' }}">Settings</a>
+    </nav>
+    <form method="post" action="/run-now" class="run-now">
+      <button type="submit">Run now</button>
+    </form>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

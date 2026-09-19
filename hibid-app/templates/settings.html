@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Settings - HiBid Watcher{% endblock %}
+{% block content %}
+  <h1>Settings</h1>
+
+  {% for p in profiles %}
+    <section class="settings-block">
+      <h2>{{ p['name'] }}</h2>
+      <table class="terms-table">
+        <thead>
+          <tr><th>Search term</th><th>Target quantity</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for t in terms_by_profile[p['id']] %}
+            <tr>
+              <td>{{ t['term'] }}</td>
+              <td>{{ t['target_quantity'] or '\u2014' }}</td>
+              <td>
+                <form method="post" action="/settings/terms/{{ t['id'] }}/delete">
+                  <button type="submit" class="link-btn">remove</button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="3" class="empty">No search terms yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <form method="post" action="/settings/profiles/{{ p['id'] }}/terms" class="add-term-form">
+        <input type="text" name="term" placeholder="e.g. bar chair" required>
+        <input type="number" name="target_quantity" placeholder="qty (optional)" min="1">
+        <button type="submit">Add term</button>
+      </form>
+    </section>
+  {% endfor %}
+
+  <section class="settings-block">
+    <h2>Add a new profile</h2>
+    <form method="post" action="/settings/profiles" class="add-term-form">
+      <input type="text" name="name" placeholder="e.g. Jack" required>
+      <button type="submit">Add profile</button>
+    </form>
+  </section>
+{% endblock %}

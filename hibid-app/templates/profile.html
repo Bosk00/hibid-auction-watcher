@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ profile['name'] }} - HiBid Watcher{% endblock %}
+{% block content %}
+  <h1>Best matches for {{ profile['name'] }}</h1>
+  {% if not lots %}
+    <p class="empty">No matches yet. Add search terms for {{ profile['name'] }} under Settings, then hit "Run now."</p>
+  {% else %}
+    <p class="lot-count">{{ lots|length }} lot{{ 's' if lots|length != 1 }} matched</p>
+    <div class="ledger">
+      {% for lot in lots %}
+        <div class="row">
+          {% if lot['image_url'] %}
+            <img class="row-thumb" src="{{ lot['image_url'] }}" alt="" loading="lazy">
+          {% else %}
+            <div class="row-thumb row-thumb-empty" aria-hidden="true"></div>
+          {% endif %}
+          <div class="row-main">
+            <a class="row-title" href="{{ lot['url'] }}" target="_blank" rel="noopener">{{ lot['title'] }}</a>
+            <div class="row-meta">
+              {{ lot['auction_name'] }} &middot; {{ lot['auction_city'] }}, {{ lot['auction_state'] }}
+              &middot; matched "{{ lot['term'] }}" &middot; qty found: {{ lot['quantity_found'] }}
+            </div>
+          </div>
+          <div class="row-stats">
+            <span class="num">{{ '%.0f'|format(lot['distance_miles']) if lot['distance_miles'] else '?' }} mi</span>
+            <span class="num closing">{{ lot['closing_date'][:16].replace('T', ' ') if lot['closing_date'] else lot['time_left'] or '' }}</span>
+            <span class="stamp stamp-{{ (lot['score'] // 3)|int }}">{{ '%.1f'|format(lot['score']) }}</span>
+            <form method="post" action="/feedback" class="feedback">
+              <input type="hidden" name="profile_id" value="{{ profile['id'] }}">
+              <input type="hidden" name="term" value="{{ lot['term'] }}">
+              <input type="hidden" name="lot_id" value="{{ lot['lot_id'] }}">
+              <input type="hidden" name="title" value="{{ lot['title'] }}">
+              <input type="hidden" name="next" value="/profile/{{ profile['name'] }}">
+              <button type="submit" name="liked" value="1" title="More like this">&#128077;</button>
+              <button type="submit" name="liked" value="0" title="Less like this">&#128078;</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,266 @@
+:root {
+  --bg: #1b1a17;
+  --panel: #242220;
+  --border: #3a362f;
+  --text: #ece7dd;
+  --text-dim: #a39c8e;
+  --accent: #c98a3a;
+  --good: #7ea77c;
+  --mid: #c9a24a;
+  --bad: #b1584f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  line-height: 1.45;
+  min-height: 100vh;
+}
+
+/* Optional personal background photo. Drop a file at static/bg-photo.jpg
+   and it appears automatically, dimmed enough to keep every page readable.
+   No file there yet? The plain --bg color shows through with no changes
+   needed - this block is silent until the image exists. */
+.bg-photo {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: var(--bg) center / cover no-repeat fixed url('/static/bg-photo.jpg');
+}
+.bg-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(27,26,23,0.94) 0%, rgba(27,26,23,0.88) 40%, rgba(27,26,23,0.94) 100%);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.wordmark {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.tabs {
+  display: flex;
+  gap: 1.1rem;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.tabs a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.3rem 0;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.tabs a.active, .tabs a:hover {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.run-now button {
+  background: var(--accent);
+  color: #1b1a17;
+  border: none;
+  border-radius: 4px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+h1 {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.3rem;
+}
+
+.lot-count {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin: 0 0 1.2rem;
+}
+
+.empty {
+  color: var(--text-dim);
+  padding: 2rem 0;
+}
+
+.ledger {
+  border-top: 1px solid var(--border);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.row-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  flex-shrink: 0;
+}
+
+.row-thumb-empty {
+  background:
+    repeating-linear-gradient(135deg, var(--panel), var(--panel) 6px, var(--bg) 6px, var(--bg) 12px);
+}
+
+.row-main { flex: 1; min-width: 0; }
+
+.row-title {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+}
+.row-title:hover { color: var(--accent); }
+
+.row-meta {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+.row-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-shrink: 0;
+}
+
+.num {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  min-width: 3.2em;
+  text-align: right;
+}
+
+.num.closing { min-width: 9em; }
+
+/* Score badge styled like an appraiser's ink stamp - a nod to the
+   auction-catalog subject matter rather than a generic pill/chip. */
+.stamp {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
+  width: 2.6em;
+  height: 2.6em;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-6deg);
+  flex-shrink: 0;
+}
+.stamp-3, .stamp-2 { color: var(--good); }
+.stamp-1 { color: var(--mid); }
+.stamp-0 { color: var(--bad); }
+
+.feedback {
+  display: flex;
+  gap: 0.3rem;
+}
+.feedback button {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.feedback button:hover { border-color: var(--accent); }
+
+.settings-block {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.settings-block h2 {
+  font-size: 1rem;
+  color: var(--accent);
+  margin: 0 0 0.7rem;
+}
+
+.terms-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.8rem;
+}
+.terms-table th, .terms-table td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.terms-table th {
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--bad);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+.add-term-form {
+  display: flex;
+  gap: 0.5rem;
+}
+.add-term-form input {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+}
+.add-term-form input[type="text"] { flex: 1; }
+.add-term-form button {
+  background: var(--accent);
+  color: #1b1a17;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
